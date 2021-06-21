@@ -1,0 +1,36 @@
+# workflow 이름
+name: CI
+
+# 작업이 실행되는 시기 제어
+on:
+  # master 브랜치에 대해, push 또는 pull_request 이벤트에서 workflow 트리거
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # actions 탭에서 workflow를 수동으로 실행할 수 있도록 허용
+  workflow_dispatch:
+
+# workflow 실행은 순차적으로 또는 병렬로 실행할 수있는 하나 이상의 작업으로 구성
+jobs:
+  # build라는 이름의 단일 job
+  build:
+    # 작업이 실행될 runner 유형
+    runs-on: ubuntu-latest
+
+    # step은 작업의 일부로 실행될 일련의 작업
+    steps:
+      # job이 접근할 수 있도록 $GITHUB_WORKSPACE에서 저장소를 체크 아웃
+      # 워크 플로를 트리거 한 ref/SHA에 대해 기본적으로 단일 커밋만 가져옵니다.
+      - uses: actions/checkout@v2
+
+      # runner shell을 사용하여 단일 명령을 실행
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # runner shell을 사용하여 일련의 명령을 실행
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
